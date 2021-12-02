@@ -1,21 +1,8 @@
-import React from "react";
-import {
-	// SafeAreaView,
-	// ScrollView,
-	// StatusBar,
-	// StyleSheet,
-	// Text,
-	// useColorScheme,
-	View,
-} from "react-native";
+import React from 'react'
+import RNBootSplash from 'react-native-bootsplash'
 
-import { NavigationContainer } from "@react-navigation/native";
-import RNBootSplash from "react-native-bootsplash";
+import Navigation from './routes'
 
-const App = () => (
-	<NavigationContainer onReady={() => RNBootSplash.hide()}>
-		<View style={{ backgroundColor: "#ff0000" }} />
-	</NavigationContainer>
-);
+const App = () => <Navigation onReady={() => RNBootSplash.hide()} />
 
-export default App;
+export default App

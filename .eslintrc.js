@@ -5,11 +5,7 @@ module.exports = {
         es2021: true,
         jest: true,
     },
-    extends: [
-        'eslint:recommended',
-        'plugin:react/recommended',
-        'plugin:react-hooks/recommended',
-    ],
+    extends: ['eslint:recommended', 'plugin:react/recommended', 'plugin:react-hooks/recommended'],
     parserOptions: {
         ecmaFeatures: {
             jsx: true,
@@ -17,12 +13,16 @@ module.exports = {
         ecmaVersion: 13,
         sourceType: 'module',
     },
-    plugins: ['react', 'react-native'],
+    plugins: ['react', 'react-native', 'prettier'],
     rules: {
-        indent: ['error', 'tab'],
+        'prettier/prettier': ['error', { endOfLine: 'auto' }, { usePrettierrc: true }],
         'linebreak-style': ['error', 'unix'],
-        quotes: ['error', 'double'],
-        semi: ['error', 'always'],
+        quotes: ['error', 'single'],
+        'no-unreachable': 2,
+        'no-loop-func': 2,
+        'no-return-assign': 2,
+        'no-unused-expressions': 2,
+        'max-len': [2, 100],
     },
     settings: {
         react: {
