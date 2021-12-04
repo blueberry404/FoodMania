@@ -23,7 +23,7 @@ const Navigation = ({ onReady }) => {
 }
 
 Navigation.propTypes = {
-    onReady: PropTypes.Func,
+    onReady: PropTypes.func,
 }
 
 export default Navigation
