@@ -23,6 +23,7 @@ module.exports = {
         'no-return-assign': 2,
         'no-unused-expressions': 2,
         'max-len': [2, 100],
+        'react/prop-types': 0,
     },
     settings: {
         react: {

@@ -2,7 +2,9 @@ import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 import { Headline, Paragraph, Button } from 'react-native-paper'
 
-const AllowAccess = () => {
+import { IMG_LOCATION_MAP } from '../../assets/images'
+
+const AllowAccess = ({ navigation }) => {
     const {
         container,
         spacer,
@@ -21,7 +23,7 @@ const AllowAccess = () => {
         <View style={container}>
             <View style={spacer} />
             <View style={contentContainer}>
-                <Image style={img} source={require('../../assets/images/locationmap.png')} />
+                <Image style={img} source={IMG_LOCATION_MAP} />
                 <Headline style={headline}>Find Restaurant and Shops near you!</Headline>
                 <Paragraph style={info}>
                     By allowing location access, you can search for restaurants and shops near you
@@ -45,7 +47,7 @@ const AllowAccess = () => {
                     color="#f78522"
                     uppercase={false}
                     labelStyle={textButtonLabelStyle}
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => navigation.navigate('FindLocation')}
                 >
                     Enter My Location
                 </Button>
