@@ -70,5 +70,16 @@
       <string>Octicons.ttf</string>
       <string>Zocial.ttf</string>
 	</array>
+  <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+  <string>Need location for deliver food address</string>
+  <key>NSLocationAlwaysUsageDescription</key>
+  <string>Need location for deliver food address</string>
+  <key>NSLocationTemporaryUsageDescriptionDictionary</key>
+  <dict>
+    <key>useLocationTemporary</key>
+    <string>NSLocationTemporaryUsageDescriptionDictionary</string>
+  </dict>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Need location for deliver food address</string>
 </dict>
 </plist>

@@ -1,8 +1,11 @@
 import React from 'react'
 import { View, Image, StyleSheet } from 'react-native'
 import { Headline, Paragraph, Button } from 'react-native-paper'
+import { RESULTS } from 'react-native-permissions'
 
 import { IMG_LOCATION_MAP } from '../../assets/images'
+import { askLocationPermission, checkLocationPermission } from '../utils/permissions'
+import { showAlertWithMessage } from '../utils/platform'
 
 const AllowAccess = ({ navigation }) => {
     const {
@@ -18,6 +21,39 @@ const AllowAccess = ({ navigation }) => {
         textButtonStyle,
         textButtonLabelStyle,
     } = styles
+
+    const checkPermission = async () => {
+        await checkLocationPermission((permGranted) => {
+            switch (permGranted) {
+                case RESULTS.GRANTED:
+                case RESULTS.LIMITED:
+                    getUserLocation()
+                    break
+                case RESULTS.DENIED:
+                    askLocationPermission(handlePostPermissionRequest, (err) => {
+                        showAlertWithMessage(err)
+                    })
+                    break
+                default: {
+                    showAlertWithMessage(
+                        'Please change the permissions from settings to use this feature',
+                    )
+                }
+            }
+        })
+    }
+
+    const handlePostPermissionRequest = (permResult) => {
+        if (permResult === RESULTS.GRANTED || permResult === RESULTS.LIMITED) {
+            getUserLocation()
+        } else {
+            showAlertWithMessage('Cannot use this feature at the moment')
+        }
+    }
+
+    const getUserLocation = () => {
+        console.warn('get user loc')
+    }
 
     return (
         <View style={container}>
@@ -37,7 +73,7 @@ const AllowAccess = ({ navigation }) => {
                     color="#f78522"
                     uppercase={false}
                     labelStyle={filledButtonLabelStyle}
-                    onPress={() => console.log('Pressed')}
+                    onPress={() => checkPermission()}
                 >
                     Allow Location Access
                 </Button>
