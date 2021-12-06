@@ -41,7 +41,8 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = FoodMania/main.m; sourceTree = "<group>"; };
 		779E29DEB845D229064900DE /* libPods-FoodMania-FoodManiaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodMania-FoodManiaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FoodMania/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		86C82055957A417385094F15 /* Optien.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = undefined; includeInIndex = 0; lastKnownFileType = unknown; name = Optien.ttf; path = ../assets/fonts/Optien.ttf; sourceTree = "<group>"; };
+		84239954275EA73F00502890 /* FoodMania-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoodMania-Bridging-Header.h"; sourceTree = "<group>"; };
+		86C82055957A417385094F15 /* Optien.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Optien.ttf; path = ../assets/fonts/Optien.ttf; sourceTree = "<group>"; };
 		D84A2E0F036CD1382DD2AE51 /* libPods-FoodMania.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodMania.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3A3192F01AB5A9FE9B6695 /* Pods-FoodMania-FoodManiaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodMania-FoodManiaTests.debug.xcconfig"; path = "Target Support Files/Pods-FoodMania-FoodManiaTests/Pods-FoodMania-FoodManiaTests.debug.xcconfig"; sourceTree = "<group>"; };
 		DA9A23F849CE2F34606D0761 /* Pods-FoodMania.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodMania.debug.xcconfig"; path = "Target Support Files/Pods-FoodMania/Pods-FoodMania.debug.xcconfig"; sourceTree = "<group>"; };
@@ -94,6 +95,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				84239954275EA73F00502890 /* FoodMania-Bridging-Header.h */,
 			);
 			name = FoodMania;
 			sourceTree = "<group>";
@@ -114,7 +116,6 @@
 				86C82055957A417385094F15 /* Optien.ttf */,
 			);
 			name = Resources;
-			path = "";
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -157,7 +158,6 @@
 				DA3A3192F01AB5A9FE9B6695 /* Pods-FoodMania-FoodManiaTests.debug.xcconfig */,
 				0680DEE32C78FB04976ABB55 /* Pods-FoodMania-FoodManiaTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -220,7 +220,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1240;
 					};
 				};
 			};
@@ -511,6 +511,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FoodMania;
+				SWIFT_OBJC_BRIDGING_HEADER = "FoodMania-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -536,6 +537,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = FoodMania;
+				SWIFT_OBJC_BRIDGING_HEADER = "FoodMania-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};

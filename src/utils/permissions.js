@@ -27,13 +27,13 @@ const checkSinglePermission = async (permission, resultCallback, errorCallback) 
                 showAlertWithMessage('This feature is not available')
                 break
             case RESULTS.DENIED:
-                console.warn('The permission has not been requested / is denied but requestable')
+                console.log('The permission has not been requested / is denied but requestable')
                 break
             case RESULTS.LIMITED:
-                console.warn('The permission is limited: some actions are possible')
+                console.log('The permission is limited: some actions are possible')
                 break
             case RESULTS.GRANTED:
-                console.warn('The permission is granted')
+                console.log('The permission is granted')
                 break
             case RESULTS.BLOCKED:
                 showOpenSettingsAlert()

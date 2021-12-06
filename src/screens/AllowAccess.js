@@ -1,11 +1,12 @@
 import React from 'react'
-import { View, Image, StyleSheet } from 'react-native'
+import { View, Image, StyleSheet, Alert } from 'react-native'
 import { Headline, Paragraph, Button } from 'react-native-paper'
 import { RESULTS } from 'react-native-permissions'
+import Geolocation, { PositionError } from 'react-native-geolocation-service';
 
 import { IMG_LOCATION_MAP } from '../../assets/images'
 import { askLocationPermission, checkLocationPermission } from '../utils/permissions'
-import { showAlertWithMessage } from '../utils/platform'
+import { getMessageForLocationError, showAlertWithMessage } from '../utils/platform'
 
 const AllowAccess = ({ navigation }) => {
     const {
@@ -52,7 +53,16 @@ const AllowAccess = ({ navigation }) => {
     }
 
     const getUserLocation = () => {
-        console.warn('get user loc')
+        Geolocation.getCurrentPosition(
+            (position) => {
+                console.log(position)
+            },
+            (error) => {
+                console.log(error.code, error.message)
+                showAlertWithMessage(getMessageForLocationError(error.code))
+            },
+            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
+        )
     }
 
     return (
