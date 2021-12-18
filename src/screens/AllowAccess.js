@@ -1,14 +1,15 @@
-import React from 'react'
-import { View, Image, StyleSheet, Alert } from 'react-native'
+import React, { useEffect } from 'react'
+import { View, Image, StyleSheet } from 'react-native'
 import { Headline, Paragraph, Button } from 'react-native-paper'
 import { RESULTS } from 'react-native-permissions'
-import Geolocation, { PositionError } from 'react-native-geolocation-service';
+import { observer } from 'mobx-react-lite'
 
 import { IMG_LOCATION_MAP } from '../../assets/images'
 import { askLocationPermission, checkLocationPermission } from '../utils/permissions'
 import { getMessageForLocationError, showAlertWithMessage } from '../utils/platform'
+import { useUserStore } from '../stores/UserStore'
 
-const AllowAccess = ({ navigation }) => {
+const AllowAccess = observer(({ navigation }) => {
     const {
         container,
         spacer,
@@ -23,12 +24,14 @@ const AllowAccess = ({ navigation }) => {
         textButtonLabelStyle,
     } = styles
 
+    const userStore = useUserStore()
+
     const checkPermission = async () => {
         await checkLocationPermission((permGranted) => {
             switch (permGranted) {
                 case RESULTS.GRANTED:
                 case RESULTS.LIMITED:
-                    getUserLocation()
+                    userStore.fetchUserLocation()
                     break
                 case RESULTS.DENIED:
                     askLocationPermission(handlePostPermissionRequest, (err) => {
@@ -46,24 +49,21 @@ const AllowAccess = ({ navigation }) => {
 
     const handlePostPermissionRequest = (permResult) => {
         if (permResult === RESULTS.GRANTED || permResult === RESULTS.LIMITED) {
-            getUserLocation()
+            userStore.fetchUserLocation()
         } else {
             showAlertWithMessage('Cannot use this feature at the moment')
         }
     }
 
-    const getUserLocation = () => {
-        Geolocation.getCurrentPosition(
-            (position) => {
-                console.log(position)
-            },
-            (error) => {
-                console.log(error.code, error.message)
-                showAlertWithMessage(getMessageForLocationError(error.code))
-            },
-            { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 },
-        )
-    }
+    useEffect(() => {
+        if (userStore.locationError) {
+            console.warn(userStore.locationError)
+            showAlertWithMessage(getMessageForLocationError(userStore.locationError.code))
+        } else if (userStore.location) {
+            //send location to server or save it
+            console.warn(userStore.location)
+        }
+    }, [userStore.location, userStore.locationError])
 
     return (
         <View style={container}>
@@ -100,7 +100,7 @@ const AllowAccess = ({ navigation }) => {
             </View>
         </View>
     )
-}
+})
 
 const styles = StyleSheet.create({
     container: { flex: 1, padding: 30 },
