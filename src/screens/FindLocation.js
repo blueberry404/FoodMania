@@ -1,12 +1,17 @@
-import React, { useState } from 'react'
-import { StyleSheet, View, TextInput } from 'react-native'
+import React, { useState, useEffect } from 'react'
+import { StyleSheet, View, TextInput, Keyboard } from 'react-native'
 import { IconButton, Button } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { RESULTS } from 'react-native-permissions'
+import { observer } from 'mobx-react-lite'
 
 import { COLOR_BLUE, COLOR_PINK, COLOR_TEXT_BG, COLOR_GRAY_ICON } from '../colors'
 import { isAndroid } from '../utils/platform'
+import { useUserStore } from '../stores/UserStore'
+import { askLocationPermission, checkLocationPermission } from '../utils/permissions'
+import { getMessageForLocationError, showAlertWithMessage } from '../utils/platform'
 
-const FindLocation = ({ navigation }) => {
+const FindLocation = observer(({ navigation }) => {
     const {
         container,
         cardStyle,
@@ -19,7 +24,47 @@ const FindLocation = ({ navigation }) => {
         buttonContainer,
     } = styles
 
+    const userStore = useUserStore()
     const [addr, setAddr] = useState('')
+
+    const checkPermission = async () => {
+        await checkLocationPermission((permGranted) => {
+            switch (permGranted) {
+                case RESULTS.GRANTED:
+                case RESULTS.LIMITED:
+                    userStore.fetchUserLocation()
+                    break
+                case RESULTS.DENIED:
+                    askLocationPermission(handlePostPermissionRequest, (err) => {
+                        showAlertWithMessage(err)
+                    })
+                    break
+                default: {
+                    showAlertWithMessage(
+                        'Please change the permissions from settings to use this feature',
+                    )
+                }
+            }
+        })
+    }
+
+    const handlePostPermissionRequest = (permResult) => {
+        if (permResult === RESULTS.GRANTED || permResult === RESULTS.LIMITED) {
+            userStore.fetchUserLocation()
+        } else {
+            showAlertWithMessage('Cannot use this feature at the moment')
+        }
+    }
+
+    useEffect(() => {
+        if (userStore.locationError) {
+            console.warn(userStore.locationError)
+            showAlertWithMessage(getMessageForLocationError(userStore.locationError.code))
+        } else if (userStore.location) {
+            //show on map
+            console.warn(userStore.location)
+        }
+    }, [userStore.location, userStore.locationError])
 
     return (
         <SafeAreaView style={container} edges={['top', 'left', 'right']}>
@@ -54,7 +99,10 @@ const FindLocation = ({ navigation }) => {
                             style={iconView}
                             color={COLOR_PINK}
                             size={20}
-                            onPress={() => {}}
+                            onPress={() => {
+                                Keyboard.dismiss()
+                                checkPermission()
+                            }}
                         />
                     </View>
                 </View>
@@ -76,7 +124,7 @@ const FindLocation = ({ navigation }) => {
             </View>
         </SafeAreaView>
     )
-}
+})
 
 const styles = StyleSheet.create({
     container: { flex: 1 },
