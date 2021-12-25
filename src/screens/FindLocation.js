@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { StyleSheet, View, TextInput, Keyboard } from 'react-native'
+import React, { useState, useEffect, useRef } from 'react'
+import { StyleSheet, View, TextInput, Keyboard, Dimensions } from 'react-native'
 import { IconButton, Button } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RESULTS } from 'react-native-permissions'
@@ -10,6 +10,13 @@ import { isAndroid } from '../utils/platform'
 import { useUserStore } from '../stores/UserStore'
 import { askLocationPermission, checkLocationPermission } from '../utils/permissions'
 import { getMessageForLocationError, showAlertWithMessage } from '../utils/platform'
+import MapView, { Marker } from 'react-native-maps'
+
+const { width, height } = Dimensions.get('window')
+
+const ASPECT_RATIO = width / height
+const LATITUDE_DELTA = 0.0922
+const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO
 
 const FindLocation = observer(({ navigation }) => {
     const {
@@ -26,6 +33,20 @@ const FindLocation = observer(({ navigation }) => {
 
     const userStore = useUserStore()
     const [addr, setAddr] = useState('')
+    const [userRegion, setUserRegion] = useState(() => getInitialRegion)
+    const [userPinLocation, setUserPinLocation] = useState(null)
+    const mapRef = useRef(null)
+
+    const getInitialRegion = () => {
+        return (
+            userStore.location == null ?? {
+                latitude: userStore.location.latitude,
+                longitude: userStore.location.longitude,
+                longitudeDelta: LONGITUDE_DELTA,
+                latitudeDelta: LATITUDE_DELTA,
+            }
+        )
+    }
 
     const checkPermission = async () => {
         await checkLocationPermission((permGranted) => {
@@ -54,6 +75,10 @@ const FindLocation = observer(({ navigation }) => {
         } else {
             showAlertWithMessage('Cannot use this feature at the moment')
         }
+    }
+
+    const onRegionChange = (region) => {
+        setUserRegion(region)
     }
 
     useEffect(() => {
@@ -107,7 +132,20 @@ const FindLocation = observer(({ navigation }) => {
                     </View>
                 </View>
                 <View style={contentContainer}>
-                    <View style={container}></View>
+                    <MapView
+                        style={container}
+                        provider="google"
+                        ref={mapRef}
+                        initialRegion={userRegion}
+                        onRegionChangeComplete={onRegionChange}
+                        showsUserLocation={true}
+                        minZoomLevel={7}
+                        onLongPress={(e) => {
+                            setUserPinLocation(e.nativeEvent.coordinate)
+                        }}
+                    >
+                        {userPinLocation && <Marker coordinate={userPinLocation} />}
+                    </MapView>
                     <View style={buttonContainer}>
                         <Button
                             contentStyle={buttonStyle}

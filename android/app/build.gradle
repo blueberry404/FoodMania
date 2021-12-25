@@ -125,6 +125,13 @@ def enableHermes = project.ext.react.get("enableHermes", false);
  */
 def nativeArchitectures = project.getProperties().get("reactNativeDebugArchitectures")
 
+def getSecretKeys(){
+    def keyFile = file("../local.properties")
+    def secretKeys = new Properties()
+    secretKeys.load(new FileInputStream(keyFile))
+    return secretKeys
+}
+
 android {
     ndkVersion rootProject.ext.ndkVersion
 
@@ -136,6 +143,7 @@ android {
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
+        manifestPlaceholders = [MAPS_API_KEY: getSecretKeys()['MAPS_API_KEY']]
     }
     splits {
         abi {
@@ -171,6 +179,7 @@ android {
         }
     }
 
+
     // applicationVariants are e.g. debug, release
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
@@ -197,6 +206,13 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.0-alpha02"
     
     implementation project(':react-native-vector-icons')
+
+    implementation(project(':react-native-maps')){
+        exclude group: 'com.google.android.gms', module: 'play-services-base'
+        exclude group: 'com.google.android.gms', module: 'play-services-maps'
+    }
+    implementation 'com.google.android.gms:play-services-base:18.0.1'
+    implementation 'com.google.android.gms:play-services-maps:18.0.1'
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'

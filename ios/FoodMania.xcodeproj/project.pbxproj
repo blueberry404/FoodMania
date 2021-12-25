@@ -42,6 +42,7 @@
 		779E29DEB845D229064900DE /* libPods-FoodMania-FoodManiaTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodMania-FoodManiaTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = FoodMania/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		84239954275EA73F00502890 /* FoodMania-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FoodMania-Bridging-Header.h"; sourceTree = "<group>"; };
+		8457ED04276E6E82007ECB76 /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		86C82055957A417385094F15 /* Optien.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Optien.ttf; path = ../assets/fonts/Optien.ttf; sourceTree = "<group>"; };
 		D84A2E0F036CD1382DD2AE51 /* libPods-FoodMania.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FoodMania.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA3A3192F01AB5A9FE9B6695 /* Pods-FoodMania-FoodManiaTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FoodMania-FoodManiaTests.debug.xcconfig"; path = "Target Support Files/Pods-FoodMania-FoodManiaTests/Pods-FoodMania-FoodManiaTests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -96,6 +97,7 @@
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				84239954275EA73F00502890 /* FoodMania-Bridging-Header.h */,
+				8457ED04276E6E82007ECB76 /* Constants.h */,
 			);
 			name = FoodMania;
 			sourceTree = "<group>";
