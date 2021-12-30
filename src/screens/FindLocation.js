@@ -105,7 +105,8 @@ const FindLocation = observer(({ navigation }) => {
                         <TextInput
                             style={textInputStyle}
                             underlineColorAndroid="transparent"
-                            placeholder="Enter delivery address"
+                            placeholder="Long press for delivery location"
+                            text={userStore.locationAddress}
                             keyboardType={isAndroid() ? 'visible-password' : 'ascii-capable'}
                             autoCorrect={false}
                             borderWidth={0}
@@ -142,6 +143,8 @@ const FindLocation = observer(({ navigation }) => {
                         minZoomLevel={7}
                         onLongPress={(e) => {
                             setUserPinLocation(e.nativeEvent.coordinate)
+                            const { latitude, longitude } = e.nativeEvent.coordinate
+                            userStore.reverseGeocodeCoordinates(latitude, longitude)
                         }}
                     >
                         {userPinLocation && <Marker coordinate={userPinLocation} />}
