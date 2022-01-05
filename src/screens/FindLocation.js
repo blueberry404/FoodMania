@@ -4,13 +4,13 @@ import { IconButton, Button } from 'react-native-paper'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { RESULTS } from 'react-native-permissions'
 import { observer } from 'mobx-react-lite'
+import MapView, { Marker } from 'react-native-maps'
 
 import { COLOR_BLUE, COLOR_PINK, COLOR_TEXT_BG, COLOR_GRAY_ICON } from '../colors'
 import { isAndroid } from '../utils/platform'
 import { useUserStore } from '../stores/UserStore'
 import { askLocationPermission, checkLocationPermission } from '../utils/permissions'
 import { getMessageForLocationError, showAlertWithMessage } from '../utils/platform'
-import MapView, { Marker } from 'react-native-maps'
 
 const { width, height } = Dimensions.get('window')
 
@@ -79,6 +79,12 @@ const FindLocation = observer(({ navigation }) => {
 
     const onRegionChange = (region) => {
         setUserRegion(region)
+    }
+
+    const saveLocation = async () => {
+        if (userPinLocation) {
+            await userStore.saveLocation(userPinLocation)
+        }
     }
 
     useEffect(() => {
@@ -156,7 +162,7 @@ const FindLocation = observer(({ navigation }) => {
                             color="#f78522"
                             uppercase={false}
                             labelStyle={filledButtonLabelStyle}
-                            onPress={() => console.log('Pressed')}
+                            onPress={() => saveLocation()}
                         >
                             Confirm
                         </Button>

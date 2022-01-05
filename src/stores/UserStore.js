@@ -1,20 +1,25 @@
 import React from 'react'
 import { action, makeObservable, observable, runInAction } from 'mobx'
 import Geolocation from 'react-native-geolocation-service'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import keys from '../../keys.json'
+import * as Strings from '../strings'
+import { showAlertWithMessage } from '../utils/platform'
 
 class UserStore {
     location = null
     locationError = null
     locationAddress = null
     addressInfo = null
+    isLocationAvailable = false
 
     constructor() {
         makeObservable(this, {
             location: observable,
             locationError: observable,
             locationAddress: observable,
+            isLocationAvailable: observable,
             fetchUserLocation: action,
             getLocationSuccess: action,
             getLocationError: action,
@@ -22,8 +27,31 @@ class UserStore {
         })
     }
 
-    updateLocation(loc) {
-        this.location = loc
+    async initUserLocationFromStorage() {
+        try {
+            const loc = await AsyncStorage.getItem(Strings.KEY_LOCATION)
+            console.log(`loc found, ${JSON.stringify(loc)}`)
+            if (loc) {
+                runInAction(() => {
+                    this.location = JSON.parse(loc)
+                    this.isLocationAvailable = true
+                })
+            }
+        } catch (error) {
+            //ignore
+        }
+    }
+
+    async saveLocation(loc) {
+        try {
+            await AsyncStorage.setItem(Strings.KEY_LOCATION, JSON.stringify(loc))
+            runInAction(() => {
+                this.location = loc
+                this.isLocationAvailable = true
+            })
+        } catch (error) {
+            showAlertWithMessage(error)
+        }
     }
 
     fetchUserLocation() {
