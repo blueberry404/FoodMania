@@ -56,14 +56,30 @@ const AllowAccess = observer(({ navigation }) => {
     }
 
     useEffect(() => {
-        if (userStore.locationError) {
-            console.warn(userStore.locationError)
-            showAlertWithMessage(getMessageForLocationError(userStore.locationError.code))
-        } else if (userStore.location) {
-            //send location to server or save it
-            console.warn(userStore.location)
+        async function checkAction() {
+            if (userStore.locationError) {
+                console.warn(userStore.locationError)
+                showAlertWithMessage(getMessageForLocationError(userStore.locationError.code))
+            } else if (userStore.location) {
+                //send location to server or save it
+                const { latitude, longitude } = userStore.location
+                userStore.reverseGeocodeCoordinates(latitude, longitude)
+            } else if (userStore.locationAddress) {
+                await userStore.saveLocation(userStore.location)
+            }
         }
-    }, [userStore.location, userStore.locationError])
+        checkAction()
+    }, [userStore.location, userStore.locationError, userStore])
+
+    useEffect(() => {
+        async function performAction() {
+            if (userStore.locationAddress) {
+                await userStore.saveLocation(userStore.location)
+            }
+        }
+
+        performAction()
+    }, [userStore.locationAddress, userStore])
 
     return (
         <View style={container}>

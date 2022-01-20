@@ -1,25 +1,23 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import PropTypes from 'prop-types'
 import { observer } from 'mobx-react-lite'
 
 import AllowAccess from '../screens/AllowAccess'
 import FindLocation from '../screens/FindLocation'
-import Home from '../screens/Home'
 import { useUserStore } from '../stores/UserStore'
+import HomeDrawer from './HomeDrawer'
 
-const Navigation = observer(({ onReady }) => {
-    const WithoutLocationStack = createNativeStackNavigator()
-    const WithLocationStack = createNativeStackNavigator()
+const WithoutLocationStack = createNativeStackNavigator()
+
+const Navigation = observer(() => {
     const userStore = useUserStore()
 
+    //make sure only one nav container
     return (
-        <NavigationContainer onReady={onReady}>
+        <>
             {userStore.isLocationAvailable ? (
-                <WithLocationStack.Navigator>
-                    <WithLocationStack.Screen name="Home" component={Home} />
-                </WithLocationStack.Navigator>
+                <HomeDrawer />
             ) : (
                 <WithoutLocationStack.Navigator
                     screenOptions={{
@@ -30,7 +28,7 @@ const Navigation = observer(({ onReady }) => {
                     <WithoutLocationStack.Screen name="FindLocation" component={FindLocation} />
                 </WithoutLocationStack.Navigator>
             )}
-        </NavigationContainer>
+        </>
     )
 })
 
