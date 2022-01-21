@@ -7,17 +7,25 @@ import AllowAccess from '../screens/AllowAccess'
 import FindLocation from '../screens/FindLocation'
 import { useUserStore } from '../stores/UserStore'
 import HomeDrawer from './HomeDrawer'
+import Settings from '../screens/Settings'
 
 const WithoutLocationStack = createNativeStackNavigator()
+const WithoutLoginStack = createNativeStackNavigator()
 
 const Navigation = observer(() => {
     const userStore = useUserStore()
 
-    //make sure only one nav container
     return (
         <>
             {userStore.isLocationAvailable ? (
-                <HomeDrawer />
+                <WithoutLoginStack.Navigator>
+                    <WithoutLoginStack.Screen
+                        name="Root"
+                        component={HomeDrawer}
+                        options={{ headerShown: false }}
+                    />
+                    <WithoutLoginStack.Screen name="Settings" component={Settings} />
+                </WithoutLoginStack.Navigator>
             ) : (
                 <WithoutLocationStack.Navigator
                     screenOptions={{
